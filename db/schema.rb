@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170314220043) do
+ActiveRecord::Schema.define(version: 20170325150839) do
+
+  create_table "advertisements", force: :cascade do |t|
+    t.string   "title"
+    t.string   "body"
+    t.integer  "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["body"], name: "index_advertisements_on_body"
+  end
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id"

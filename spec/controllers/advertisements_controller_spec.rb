@@ -4,7 +4,6 @@ require 'rails_helper'
 RSpec.describe AdvertisementsController, type: :controller do
 
   let(:my_ad) { Advertisement.create!(title: RandomData.random_sentence, body: RandomData.random_sentence, price: 100) }
-  # let(:my_ad) { Advertisement.create! }
 
   describe "GET #index" do
     it "returns http success" do
@@ -52,7 +51,7 @@ RSpec.describe AdvertisementsController, type: :controller do
     end
   end
 
-  describe "Advertisement create" do
+  describe "ADVERTISEMENT create" do
     it "increases the number of Advertisements by 1" do
       expect{post :create, advertisement: {title: RandomData.random_sentence, body: RandomData.random_paragraph, price: 100}}.to change(Advertisement,:count).by(1)
     end

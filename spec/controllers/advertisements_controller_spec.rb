@@ -17,7 +17,7 @@ RSpec.describe AdvertisementsController, type: :controller do
     end
   end
 
-  describe "GET #show" do
+  describe "GET show" do
     it "returns http success" do
       get :show, {id: my_ad.id}
       expect(response).to have_http_status(:success)
@@ -34,7 +34,7 @@ RSpec.describe AdvertisementsController, type: :controller do
     end
   end
 
-  describe "GET #new" do
+  describe "GET new" do
     it "returns http success" do
       get :new
       expect(response).to have_http_status(:success)
@@ -51,7 +51,7 @@ RSpec.describe AdvertisementsController, type: :controller do
     end
   end
 
-  describe "ADVERTISEMENT create" do
+  describe "POST create" do
     it "increases the number of Advertisements by 1" do
       expect{post :create, advertisement: {title: RandomData.random_sentence, body: RandomData.random_paragraph, price: 100}}.to change(Advertisement,:count).by(1)
     end

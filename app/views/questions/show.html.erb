@@ -9,6 +9,6 @@
     <%= link_to "Delete Question", @question, method: :delete, class: 'btn btn-danger', data: {confirm: 'Are you sure you want to delete this question?'} %>
   </div>
   <div class="col-md-8">
-    <p><%= @question.resolved %></p>
+    <p><%= @question.resolved ? "Resolved" : "Not resolved" %></p>
   </div>
 </div>

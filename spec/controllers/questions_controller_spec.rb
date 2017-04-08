@@ -3,7 +3,7 @@ include RandomData
 
 RSpec.describe QuestionsController, type: :controller do
 
-  let(:my_question) { Question.create!(id: 1, title: RandomData.random_sentence, body: RandomData.random_paragraph, resolved: false) }
+  let(:my_question) { Question.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph, resolved: false) }
 
   describe "GET #index" do
     it "returns http success" do
@@ -17,24 +17,24 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe "GET show" do
+  describe "GET #show" do
     it "returns http success" do
-      get :show, {id: my_question.id}
+      get :show, params: { id: my_question.id }
       expect(response).to have_http_status(:success)
     end
 
     it "renders the #show view" do
-      get :show, {id: my_question.id}
+      get :show, params: { id: my_question.id }
       expect(response).to render_template :show
     end
 
     it "assigns my_post to @question" do
-      get :show, {id: my_question.id}
+      get :show, params: { id: my_question.id }
       expect(assigns(:question)).to eq(my_question)
     end
   end
 
-  describe "GET new" do
+  describe "GET #new" do
     it "returns http success" do
       get :new
       expect(response).to have_http_status(:success)
@@ -51,7 +51,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe "POST create" do
+  describe "POST #create" do
     it "increases the number of Questions by 1" do
       expect{post :create, question: {title: RandomData.random_sentence, body: RandomData.random_paragraph}}.to change(Question,:count).by(1)
     end
@@ -67,37 +67,35 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe "GET edit" do
+  describe "GET #edit" do
     it "returns http success" do
-      get :edit, {id: my_question.id}
+      get :edit, params: { id: my_question.id }
       expect(response).to have_http_status(:success)
     end
 
     it "renders the #edit view" do
-      get :edit, {id: my_question.id}
+      get :edit, params: { id: my_question.id }
       expect(response).to render_template :edit
     end
 
     it "assigns question to be updated to @question" do
-      get :edit, {id: my_question.id}
+      get :edit, params: { id: my_question.id }
       question_instance = assigns(:question)
-      expect(question_instance.id).to eq my_question.id
       expect(question_instance.title).to eq my_question.title
       expect(question_instance.body).to eq my_question.body
       expect(question_instance.resolved).to eq my_question.resolved
     end
   end
 
-  describe "PUT update" do
+  describe "PUT #update" do
     it "updates question with expected attributes" do
       new_title = RandomData.random_sentence
       new_body = RandomData.random_paragraph
       new_resolved = false
 
-      put :update, id: my_question.id, question: {title: new_title, body: new_body, resolved: false}
+      put :update, params: { id: my_question.id, question: {title: new_title, body: new_body, resolved: false} }
 
       updated_question = assigns(:question)
-      expect(updated_question.id).to eq my_question.id
       expect(updated_question.title).to eq new_title
       expect(updated_question.body).to eq new_body
       expect(updated_question.resolved).to eq new_resolved
@@ -112,15 +110,15 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe "DELETE destroy" do
+  describe "DELETE #destroy" do
     it "deletes the question" do
-      delete :destroy, {id: my_question.id}
+      delete :destroy, params: { id: my_question.id }
       count = Question.where({id: my_question.id}).size
       expect(count).to eq 0
     end
 
     it "redirects to questions index" do
-      delete :destroy, {id: my_question.id}
+      delete :destroy, params: { id: my_question.id }
       expect(response).to redirect_to questions_path
     end
   end

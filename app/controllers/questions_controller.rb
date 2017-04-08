@@ -13,7 +13,6 @@ class QuestionsController < ApplicationController
 
   def create
     @question = Question.new
-    @question.id = Question.all.length + 1
     @question.title = params[:question][:title]
     @question.body = params[:question][:body]
     @question.resolved = params[:question][:resolved]

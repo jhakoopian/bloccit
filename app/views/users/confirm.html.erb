@@ -1,0 +1,19 @@
+<h2>Sign Up Confirmation</h2>
+
+<div class="row">
+  <div class="col-md-6">
+    <h4>Are you sure these values are correct?<h4>
+      <h6>Name: <%= params[:user][:name] %></h6>
+      <h6>Email: <%= @user.email %></h6>
+      <%= form_for @user do |f| %>
+        <%= f.hidden_field :name %>
+        <%= f.hidden_field :email %>
+        <%= f.hidden_field :password %>
+        <%= f.hidden_field :password_confirmation %>
+        <%= f.submit "Yes", class: 'btn btn-success' %>
+      <% end %>
+      <div>
+        <%= link_to "No", new_user_path, class: 'btn btn-danger' %>
+      </div>
+  </div>
+</div>

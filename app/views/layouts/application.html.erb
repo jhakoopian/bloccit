@@ -28,11 +28,17 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
-            <li><%= link_to "Topics", topics_path %></li>
             <li><%= link_to "About", about_path %></li>
             <li><%= link_to "Ads", advertisements_path %></li>
-            <li><%= link_to "Questions", questions_path %></li>
-            <li><%= link_to "Sign Up", new_user_path %></li>
+            <% if current_user %>
+              <li><%= link_to "Topics", topics_path %></li>
+              <li><%= link_to "Questions", questions_path %></li>
+              <li><%= link_to "Sign Out", session_path(current_user), method: :delete %></li>
+            <% else %>
+              <li><%= link_to "Sign Up", new_user_path %></li>
+              <li><%= link_to "Sign In", new_session_path %></li>
+            <% end %>
+
           </ul>
         </div>
         <!-- /.navbar-collapse -->

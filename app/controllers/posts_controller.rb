@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  before_action :require_sign_in, except: :show
   before_action :set_topic
 
   def show
@@ -10,7 +11,9 @@ class PostsController < ApplicationController
   end
 
   def create
+    @topic = Topic.find(params[:topic_id])
     @post = @topic.posts.new(post_params)
+    @post.user = current_user
 
     if @post.save
       flash[:notice] = "Post was saved."
@@ -27,6 +30,7 @@ class PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
+    @post.assign_attributes(post_params)
 
     if @post.update_attributes(post_params)
       flash[:notice] = "Post was updated."
@@ -50,7 +54,6 @@ class PostsController < ApplicationController
   end
 
   private
-
   def post_params
     params.require(:post).permit(:title, :body)
   end

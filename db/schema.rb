@@ -10,16 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170513215208) do
-
-  create_table "advertisements", force: :cascade do |t|
-    t.string   "title"
-    t.string   "body"
-    t.integer  "price"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["body"], name: "index_advertisements_on_body"
-  end
+ActiveRecord::Schema.define(version: 20170518035057) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id"
@@ -70,6 +61,7 @@ ActiveRecord::Schema.define(version: 20170513215208) do
     t.string   "password_digest"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.integer  "role"
   end
 
 end

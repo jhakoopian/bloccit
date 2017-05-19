@@ -12,7 +12,6 @@ class UsersController < ApplicationController
   end
 
   def create
-    Rails.logger.info ">>>>>> user name: #{params[:user][:name].inspect}"
     @user = User.new
     @user.name = params[:user][:name]
     @user.email = params[:user][:email]

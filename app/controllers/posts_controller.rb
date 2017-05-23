@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :require_sign_in, except: :show
-  before_action :authorize_user, except: [:show, :new, :create]
+  before_action :can_edit, only: [:edit, :update]
+  before_action :can_destroy, only: [:destroy]
   before_action :set_topic
 
   def show
@@ -69,6 +70,20 @@ class PostsController < ApplicationController
     unless current_user == post.user || current_user.admin?
       flash[:alert] = "You must be an admin to do that."
       redirect_to [post.topic, post]
+    end
+  end
+
+  def can_edit
+    unless current_user.admin? || current_user.moderator? || (post.user == current_user)
+      flash[:alert] = "You must be an admin, moderator or author of this post to do that."
+      redirect_to topics_path
+    end
+  end
+
+  def can_destroy
+    unless current_user.admin?  || (post.user == current_user)
+      flash[:alert] = "You must be an admin or author of this post to do that."
+      redirect_to topics_path
     end
   end
 end

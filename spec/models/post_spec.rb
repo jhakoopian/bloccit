@@ -14,7 +14,7 @@ RSpec.describe Post, type: :model do
   it { is_expected.to have_many(:comments) }
   it { is_expected.to have_many(:votes) }
   it { is_expected.to have_many(:favorites) }
-  
+
   it { is_expected.to belong_to(:topic) }
   it { is_expected.to belong_to(:user) }
 
@@ -91,6 +91,12 @@ RSpec.describe Post, type: :model do
       it "associates the vote with the owner of the post" do
         expect(post.votes.first.user).to eq(post.user)
       end
+    end
+  end
+
+  describe "#create_favorite" do
+    it "favorites a user's post when that user creates a post" do
+      expect(user.favorites.find_by_post_id(post.id)).not_to be_nil
     end
   end
 end

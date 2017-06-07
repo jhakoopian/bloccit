@@ -5,6 +5,8 @@ RSpec.describe Comment, type: :model do
   let(:user) { User.create!(name: "Bloccit User", email: "user@bloccit.com", password: "helloworld") }
   let(:post) { topic.posts.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph, user: user) }
   let(:comment) { Comment.create!(body: 'Comment Body', post: post, user: user) }
+  let(:other_user) { User.create!(name: "Bloccit Other", email: "other@bloccit.com", password: "helloworld")}
+  let(:other_post) {topic.posts.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph, user: other_user)}
 
   it { is_expected.to belong_to(:post) }
   it { is_expected.to belong_to(:user) }
@@ -16,5 +18,25 @@ RSpec.describe Comment, type: :model do
     it "has a body attribute" do
       expect(comment).to have_attributes(body: "Comment Body")
     end
+  end
+
+  describe "after_create" do
+    before do
+      @another_comment = Comment.new(body: 'Comment Body', post: post, user: user)
+    end
+
+    it "sends an email to users who have favorited the post" do
+      favorite = user.favorites.find_by(post: post)
+      expect(FavoriteMailer).to receive(:new_comment).with(user, post, @another_comment).and_return(double(deliver_now: true))
+
+      @another_comment.save!
+    end
+
+    # it "does not send emails to users who haven't favorited the post" do
+    #   comment_on_another_post = Comment.new(body: 'Comment Body', post: other_post, user: user)
+    #   expect(FavoriteMailer).not_to receive(:new_comment)
+    #
+    #   @another_comment.save!
+    # end
   end
 end

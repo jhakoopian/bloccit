@@ -4,7 +4,8 @@ RSpec.describe Comment, type: :model do
   let(:topic) { create(:topic) }
   let(:user) { create(:user) }
   let(:post) { create(:post) }
-  let(:comment) { Comment.create!(body: 'Comment Body', post: post, user: user) }
+  let(:comment) { Comment.create!(body: "Comment Body", post: post, user: user) }
+
   let(:other_user) { User.create!(name: "Bloccit Other", email: "other@bloccit.com", password: "helloworld")}
   let(:other_post) {topic.posts.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph, user: other_user)}
 
@@ -16,7 +17,7 @@ RSpec.describe Comment, type: :model do
 
   describe "attributes" do
     it "has a body attribute" do
-      expect(comment).to have_attributes(body: "Comment Body")
+      expect(comment).to have_attributes(body: comment.body)
     end
   end
 
@@ -26,8 +27,7 @@ RSpec.describe Comment, type: :model do
     end
 
     it "sends an email to users who have favorited the post" do
-      favorite = user.favorites.find_by(post: post)
-      expect(FavoriteMailer).to receive(:new_comment).with(user, post, @another_comment).and_return(double(deliver_now: true))
+      expect(FavoriteMailer).to receive(:new_comment).with(post.user, post, @another_comment).and_return(double(deliver_now: true))
 
       @another_comment.save!
     end
